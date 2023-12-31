@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Notes Generator</title>
+</head>
+<body>
+    <h1>Video Notes Generator</h1>
+    <form id="notesForm">
+        <label for="videoUrl">Enter YouTube Video URL:</label>
+        <input type="text" id="videoUrl" name="videoUrl" required>
+        <button type="submit">Generate Notes</button>
+    </form>
+
+    <div id="notes">
+
+    </div>
+
+    <script>
+        document.getElementById('notesForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const videoUrl = document.getElementById('videoUrl').value;
+            const response = await fetch('/generate-notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ videoUrl }),
+            });
+
+            const result = await response.text();
+            let container = document.getElementById("notes");
+            container.innerText = result;
+            console.log(result);
+        });
+    </script>
+</body>
+</html>
